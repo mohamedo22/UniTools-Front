@@ -1,4 +1,8 @@
-export interface VerifyOtpDto {
-    email: string;
-    otp: string;
+export class VerifyOtpDto {
+    constructor() {
+        this.email = '';
+        this.otp = '';
+    }
+    public email: string;
+    public otp: string;
 }
