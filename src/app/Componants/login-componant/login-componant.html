@@ -16,7 +16,7 @@
             </div>
             @if(email.invalid && email.touched){
             <!-- Validation Label -->
-            <small class="text-red-600 -my-6">
+            <small class="text-red-600/55 -my-6">
                 @if(email.errors?.['required']){
                 <!-- required -->
                 <span >Email is required</span>
@@ -42,7 +42,7 @@
 
             @if(password.invalid && password.touched){
             <!-- Validation Label -->
-            <small class="text-red-600 -mb-4">
+            <small class="text-red-600/55 -mb-4">
                 @if(password.errors?.['required']){
                 <!-- required -->
                 <span >password is required</span>
