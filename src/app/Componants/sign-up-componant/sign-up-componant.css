@@ -1,0 +1,58 @@
+
+/* Add these animations to your component's CSS or global styles */
+
+*{
+    box-sizing: border-box;
+}
+
+input{
+    outline: none;
+}
+
+
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slideDown {
+  animation: slideDown 0.3s ease-out forwards;
+}
+
+/* Smooth transitions for input borders */
+input, select {
+  transition: border-color 0.3s ease;
+}
+
+/* Password strength indicator animation */
+@keyframes strengthPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.bg-green-400 {
+  animation: strengthPulse 2s infinite;
+}
+
+/* Custom focus styles */
+input:focus ~ label {
+  color: #71b8bc !important;
+}
+
+/* Shake animation for invalid fields */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+  20%, 40%, 60%, 80% { transform: translateX(2px); }
+}
+
+.border-red-500:focus {
+  animation: shake 0.5s ease-in-out;
+}

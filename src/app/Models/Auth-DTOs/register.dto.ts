@@ -1,12 +1,12 @@
 export class IRegisterDto {
     constructor() {
-        this.username = '';
-        this.phone = '';
-        this.email = '';
-        this.password = '';
+        this.userName = '';
+        this.phoneNumber = '';
+        this.userEmailAddress = '';
+        this.userPassword = '';
     }
-    public username: string;
-    public phone: string;
-    public email: string;
-    public password: string;
+    public userName: string;
+    public phoneNumber: string;
+    public userEmailAddress: string;
+    public userPassword: string;
 }

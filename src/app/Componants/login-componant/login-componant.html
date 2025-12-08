@@ -1,62 +1,126 @@
-<div style="width: 100vw; height: 100vh;" class=" overflow-hidden flex bg-[#B0D8DA] pl-3 pt">
+<div style="width: 100vw; height: 100vh;" class="overflow-hidden flex bg-[#B0D8DA] pl-3 pt-3">
     <div class="flex flex-col gap-5 w-110 pt-3"> 
         <img src="Logo.png" alt="Logo" class="size-17"/>
         <p class="pl-4 font-medium text-2xl text-white w-110">Find Your Tools, Mockups Create Account and Browse here</p>
-        <img src="Tools.png" alt="Tools" class="size-96 ml-32 relative z-2"/>
+        <img src="Tools.png" alt="Tools" class="size-96 ml-32 relative z-10"/>
     </div>
-    <div class="bg-white rounded-bl-[50px] rounded-tl-[50px] w-full grid content-center justify-center ">
-        <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" class="flex flex-col gap-10 w-100">
-            <p class="font-bold text-2xl mb-10">Welcome again</p>
-            <div class="relative z-0">
-                <input required [pattern]="'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'" [(ngModel)]="model.email" #email="ngModel" type="text" name="email" id="email" class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-gray-400 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" " />
-                <label for="email" class="inline-flex items-center absolute text-sm text-body duration-300 transform -translate-y-6 text-gray-400 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
-                <svg class="w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"/></svg>
-                Email Address
+    
+    <div class="bg-white rounded-bl-[50px] rounded-tl-[50px] w-full grid content-center justify-center">
+        <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" class="flex flex-col gap-6 w-100 max-w-md">
+            <p class="font-bold text-2xl mb-6">Welcome again</p>
+            
+            <!-- Email Field with Optimized Validation -->
+            <div class="relative z-0 w-full">
+                <input 
+                    required 
+                    [pattern]="'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'" 
+                    [(ngModel)]="model.UserEmailAddress" 
+                    #email="ngModel" 
+                    type="text" 
+                    name="email" 
+                    id="email" 
+                    class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 peer"
+                    [class.border-red-500]="email.invalid && email.touched"
+                    [class.border-green-500]="email.valid && email.touched"
+                    [class.border-gray-400]="!email.touched || (email.untouched && !email.dirty)"
+                    placeholder=" " 
+                />
+                <label for="email" 
+                    class="inline-flex items-center absolute text-sm duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] 
+                           peer-focus:start-0 peer-focus:text-[#71b8bc] peer-placeholder-shown:scale-100 
+                           peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6
+                           transition-all"
+                    [class.text-red-500]="email.invalid && email.touched"
+                    [class.text-green-500]="email.valid && email.touched"
+                    [class.text-gray-400]="!email.touched || (email.untouched && !email.dirty)">
+                    <svg class="w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"/>
+                    </svg>
+                    Email Address
                 </label>
-            </div>
-            @if(email.invalid && email.touched){
-            <!-- Validation Label -->
-            <small class="text-red-600/55 -my-6">
-                @if(email.errors?.['required']){
-                <!-- required -->
-                <span >Email is required</span>
-                }
-                @if (email.errors?.['pattern']) {
-                  <!-- minlength -->
-                <span>Please enter a Valid Email</span>
-                }
                 
-            </small>
-        }
+                <!-- Dynamic Validation Message -->
+                <div class="transition-all duration-300 overflow-hidden" [style.height]="(email.invalid && email.touched) ? '1.5rem' : '0'">
+                    @if(email.invalid && email.touched){
+                        <div class="text-xs text-red-500 mt-1">
+                            @if(email.errors?.['required']){
+                                <span>Email is required</span>
+                            }
+                            @if(email.errors?.['pattern']){
+                                <span>Please enter a valid email address</span>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
 
-            <div class="relative z-0 -mb-8">
-                <input required minlength="8" [(ngModel)]="model.password" #password="ngModel" type="password" name="password" id="password" class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-gray-400 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" " />
-                <label for="password"   class="inline-flex items-center absolute text-sm text-body duration-300 transform -translate-y-6 text-gray-400 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
-                <svg fill="" class="size-5 mr-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M16.9499909,19 C16.7183558,20.1411202 15.709479,21 14.5,21 L5.5,21 C4.11928813,21 3,19.8807119 3,18.5 L3,11.5 C3,10.290521 3.85887984,9.28164422 5,9.05000906 L5,8 C5,5.23857625 7.23857625,3 10,3 C12.7614237,3 15,5.23857625 15,8 L15,9.05000906 C16.1411202,9.28164422 17,10.290521 17,11.5 L17,13 L18.5,13 C19.8807119,13 21,14.1192881 21,15.5 L21,16.5 C21,17.8807119 19.8807119,19 18.5,19 L16.9499909,19 L16.9499909,19 Z M15.9146471,19 L11.5,19 C10.1192881,19 9,17.8807119 9,16.5 L9,15.5 C9,14.1192881 10.1192881,13 11.5,13 L16,13 L16,11.5 C16,10.710487 15.3900375,10.0634383 14.6156506,10.0043921 C14.5785296,10.0131823 14.5398081,10.0178344 14.5,10.0178344 C14.4540106,10.0178344 14.4094714,10.0116254 14.367175,10 L5.5,10 C4.67157288,10 4,10.6715729 4,11.5 L4,18.5 C4,19.3284271 4.67157288,20 5.5,20 L14.5,20 C15.1531094,20 15.7087289,19.5825962 15.9146471,19 L15.9146471,19 Z M6,9 L14,9 L14,8 C14,5.790861 12.209139,4 10,4 C7.790861,4 6,5.790861 6,8 L6,9 Z M20,16.5 L20,15.5 C20,14.6715729 19.3284271,14 18.5,14 L11.5,14 C10.6715729,14 10,14.6715729 10,15.5 L10,16.5 C10,17.3284271 10.6715729,18 11.5,18 L18.5,18 C19.3284271,18 20,17.3284271 20,16.5 Z M11.5,15 L12.5,15 C12.7761424,15 13,15.2238576 13,15.5 L13,16.5 C13,16.7761424 12.7761424,17 12.5,17 L11.5,17 C11.2238576,17 11,16.7761424 11,16.5 L11,15.5 C11,15.2238576 11.2238576,15 11.5,15 Z M14.5,15 L15.5,15 C15.7761424,15 16,15.2238576 16,15.5 L16,16.5 C16,16.7761424 15.7761424,17 15.5,17 L14.5,17 C14.2238576,17 14,16.7761424 14,16.5 L14,15.5 C14,15.2238576 14.2238576,15 14.5,15 Z M17.5,15 L18.5,15 C18.7761424,15 19,15.2238576 19,15.5 L19,16.5 C19,16.7761424 18.7761424,17 18.5,17 L17.5,17 C17.2238576,17 17,16.7761424 17,16.5 L17,15.5 C17,15.2238576 17.2238576,15 17.5,15 Z"/>
+            <!-- Password Field with Optimized Validation -->
+            <div class="relative z-0 w-full">
+                <input 
+                    required 
+                    minlength="8" 
+                    [(ngModel)]="model.UserPassword" 
+                    #password="ngModel" 
+                    type="password" 
+                    name="password" 
+                    id="password" 
+                    class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 peer"
+                    [class.border-red-500]="password.invalid && password.touched"
+                    [class.border-green-500]="password.valid && password.touched"
+                    [class.border-gray-400]="!password.touched || (password.untouched && !password.dirty)"
+                    placeholder=" " 
+                />
+                <label for="password"   
+                    class="inline-flex items-center absolute text-sm duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] 
+                           peer-focus:start-0 peer-focus:text-[#71b8bc] peer-placeholder-shown:scale-100 
+                           peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6
+                           transition-all"
+                    [class.text-red-500]="password.invalid && password.touched"
+                    [class.text-green-500]="password.valid && password.touched"
+                    [class.text-gray-400]="!password.touched || (password.untouched && !password.dirty)">
+                    <svg fill="" class="size-5 mr-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16.9499909,19 C16.7183558,20.1411202 15.709479,21 14.5,21 L5.5,21 C4.11928813,21 3,19.8807119 3,18.5 L3,11.5 C3,10.290521 3.85887984,9.28164422 5,9.05000906 L5,8 C5,5.23857625 7.23857625,3 10,3 C12.7614237,3 15,5.23857625 15,8 L15,9.05000906 C16.1411202,9.28164422 17,10.290521 17,11.5 L17,13 L18.5,13 C19.8807119,13 21,14.1192881 21,15.5 L21,16.5 C21,17.8807119 19.8807119,19 18.5,19 L16.9499909,19 L16.9499909,19 Z M15.9146471,19 L11.5,19 C10.1192881,19 9,17.8807119 9,16.5 L9,15.5 C9,14.1192881 10.1192881,13 11.5,13 L16,13 L16,11.5 C16,10.710487 15.3900375,10.0634383 14.6156506,10.0043921 C14.5785296,10.0131823 14.5398081,10.0178344 14.5,10.0178344 C14.4540106,10.0178344 14.4094714,10.0116254 14.367175,10 L5.5,10 C4.67157288,10 4,10.6715729 4,11.5 L4,18.5 C4,19.3284271 4.67157288,20 5.5,20 L14.5,20 C15.1531094,20 15.7087289,19.5825962 15.9146471,19 L15.9146471,19 Z M6,9 L14,9 L14,8 C14,5.790861 12.209139,4 10,4 C7.790861,4 6,5.790861 6,8 L6,9 Z M20,16.5 L20,15.5 C20,14.6715729 19.3284271,14 18.5,14 L11.5,14 C10.6715729,14 10,14.6715729 10,15.5 L10,16.5 C10,17.3284271 10.6715729,18 11.5,18 L18.5,18 C19.3284271,18 20,17.3284271 20,16.5 Z M11.5,15 L12.5,15 C12.7761424,15 13,15.2238576 13,15.5 L13,16.5 C13,16.7761424 12.7761424,17 12.5,17 L11.5,17 C11.2238576,17 11,16.7761424 11,16.5 L11,15.5 C11,15.2238576 11.2238576,15 11.5,15 Z M14.5,15 L15.5,15 C15.7761424,15 16,15.2238576 16,15.5 L16,16.5 C16,16.7761424 15.7761424,17 15.5,17 L14.5,17 C14.2238576,17 14,16.7761424 14,16.5 L14,15.5 C14,15.2238576 14.2238576,15 14.5,15 Z M17.5,15 L18.5,15 C18.7761424,15 19,15.2238576 19,15.5 L19,16.5 C19,16.7761424 18.7761424,17 18.5,17 L17.5,17 C17.2238576,17 17,16.7761424 17,16.5 L17,15.5 C17,15.2238576 17.2238576,15 17.5,15 Z"/>
+                    </svg>
+                    Account Password
+                </label>
+                
+                <!-- Forget Password Link -->
+                <div class="flex justify-between items-center mt-2">
+                    <a routerLink="/forget_password" class="text-[#71b8bc] text-xs hover:underline">Forgot Password?</a>
+                    
+                    <!-- Dynamic Validation Message -->
+                    <div class="transition-all duration-300 overflow-hidden" [style.height]="(password.invalid && password.touched) ? '1.5rem' : '0'">
+                        @if(password.invalid && password.touched){
+                            <div class="text-xs text-red-500">
+                                @if(password.errors?.['required']){
+                                    <span>Password is required</span>
+                                }
+                                @if(password.errors?.['minlength']){
+                                    <span>Minimum 8 characters required</span>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Login Button -->
+            <button 
+                [disabled]="loginForm.invalid" 
+                class="flex items-center justify-center gap-2 text-white rounded-lg py-3 mt-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                [class.bg-[#71b8bc]]="loginForm.valid"
+                [class.bg-gray-400]="loginForm.invalid"
+                [class.hover:bg-[#236669]]="loginForm.valid"
+                [class.cursor-pointer]="loginForm.valid">
+                <p class="text-lg">Login</p>
+                <svg class="size-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 15.6569V10M14 10H8.34315M14 10L5.63604 18.364M10.2432 20.8278C13.0904 21.3917 16.1575 20.5704 18.364 18.364C21.8787 14.8492 21.8787 9.15076 18.364 5.63604C14.8492 2.12132 9.15076 2.12132 5.63604 5.63604C3.42957 7.84251 2.60828 10.9096 3.17216 13.7568" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                   Account Password
-                </label>
-                <a routerLink="/forget_password" class="text-[#71b8bc] text-xs">Forget My Password </a>
-            </div>
+            </button>
 
-            @if(password.invalid && password.touched){
-            <!-- Validation Label -->
-            <small class="text-red-600/55 -mb-4">
-                @if(password.errors?.['required']){
-                <!-- required -->
-                <span >password is required</span>
-                }
-                @if (password.errors?.['minlength']) {
-                  <!-- minlength -->
-                <span>Minimum 8 characters</span>
-                }
-                
-            </small>
-        }
-
-            <button [disabled]="loginForm.invalid" class="bg-[#71b8bc] flex items-center justify-center gap-2 text-white rounded-lg py-2 mt-6 hover:bg-[#236669] cursor-pointer transition-colors duration-300"> <p class="text-lg">Login</p>  <svg class="size-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M14 15.6569V10M14 10H8.34315M14 10L5.63604 18.364M10.2432 20.8278C13.0904 21.3917 16.1575 20.5704 18.364 18.364C21.8787 14.8492 21.8787 9.15076 18.364 5.63604C14.8492 2.12132 9.15076 2.12132 5.63604 5.63604C3.42957 7.84251 2.60828 10.9096 3.17216 13.7568" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> </svg></button>
-
-            <p class="text-sm text-[#0000009c]" >Don't have an Account ? <a routerLink="/signup" class="text-[#71b8bc]">Register</a> </p>
+            <p class="text-sm text-[#0000009c] text-center mt-2">
+                Don't have an Account? <a routerLink="/signup" class="text-[#71b8bc] hover:underline">Register</a>
+            </p>
         </form>
-</div>  
+    </div>
+</div>

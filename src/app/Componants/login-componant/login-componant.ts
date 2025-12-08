@@ -4,30 +4,47 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { ILoginDto } from '../../Models/Auth-DTOs/login.dto';
 import { AuthService } from '../../Services/auth.service';
 import { CommonModule } from '@angular/common';
-
+import { SharedService } from '../../Shared/shared.service';
 @Component({
   standalone: true,
   selector: 'app-login-componant',
   imports: [RouterLink, FormsModule, CommonModule],
   templateUrl: './login-componant.html',
   styleUrl: './login-componant.css',
-  providers: [AuthService],
+  providers: [AuthService , SharedService],
 })
 export class LoginComponant {
 
-  constructor(private authService: AuthService) {}
+  loading: boolean = false;
+
+  constructor(private authService: AuthService , private sharedService:SharedService) {
+   
+  }
   
   model = new ILoginDto();
 
   
 
+  
+
   onSubmit(form:NgForm) {
+    this.loading = true;
     if (form.valid) {
-      this.authService.login(this.model).subscribe(response => {
-        console.log('Login successful', response);
-      }, error => {
-        console.error('Login failed', error);
-      });
+      this.authService.Login(this.model).subscribe(
+        {
+          next: (res) => {
+            console.log(res);
+            this.loading = false;
+            this.sharedService.showToast('Login Successful', 'success');
+          }
+          ,
+          error: (err) => {
+            console.log(err);
+            this.loading = false;
+            this.sharedService.showToast('Login Failed: ' + err.error.message, 'error');
+          }
+        }
+      );
     }
   }
 

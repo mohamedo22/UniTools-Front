@@ -1,30 +1,98 @@
-<div style="width: 100vw; height: 100vh;" class=" overflow-hidden flex bg-[#B0D8DA] pl-3 pt">
-    <div class="flex flex-col gap-5 w-110 pt-3"> 
-        <img src="Logo.png" alt="Logo" class="size-17"/>
+<div style="width: 100vw; height: 100vh" class=" overflow-hidden flex bg-[#B0D8DA]">
+    <div class="flex flex-col gap-5 w-110 pt-3">
+        <img src="Logo.png" alt="Logo" class="size-17" />
         <p class="pl-4 font-medium text-2xl text-white w-110">Find Your Tools, Mockups Create Account and Browse here</p>
-        <img src="Tools.png" alt="Tools" class="size-96 ml-32 relative z-2"/>
+        <img src="Tools.png" alt="Tools" class="size-96 ml-32 relative z-10" />
     </div>
-    <div class="bg-white rounded-bl-[50px] rounded-tl-[50px] w-full grid content-center justify-center ">
-        <div class="flex flex-col gap-6 w-100">
-            <p class="font-bold text-2xl mb-6">Create your account</p>
-            <div class="flex justify-between w-full">
-                <div class="relative z-0 w-48">
-                    <input type="text" id="fullname" class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-gray-400 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" " />
-                    <label for="fullname" class="inline-flex items-center absolute text-sm text-body duration-300 transform -translate-y-6 text-gray-400 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                        Full Name
-                    </label>
-                </div>
-
-                <div class="relative z-0 w-48">
-                    <input type="email" id="email" class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-gray-400 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" " />
-                    <label for="email" class="inline-flex items-center absolute text-sm text-body duration-300 transform -translate-y-6 text-gray-400 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                        Email Address
-                    </label>
+    
+    <div class="bg-white rounded-bl-[50px] rounded-tl-[50px] w-full grid  justify-center pt-8 overflow-x-hidden">
+        <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)" class="flex flex-col mb-10  w-100 max-w-md ">
+            <p class="font-bold text-2xl mb-10">Create your account</p>
+            
+            <!-- Full Name Field -->
+            <div class="relative z-0 w-full">
+                <input 
+                    type="text" 
+                    name="fullName"
+                    [(ngModel)]="model.userName" 
+                    #fullName="ngModel"
+                    required
+                    minlength="2"
+                    id="fullname" 
+                    class="block py-2.5 mb-4 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 peer"
+                    [ngClass]="{
+                        'border-red-500': fullName.invalid && fullName.touched,
+                        'border-green-500': fullName.valid && fullName.touched,
+                        'border-gray-400': !fullName.touched || (fullName.untouched && !fullName.dirty)
+                    }"
+                    placeholder=" "
+                />
+                <label for="fullname" 
+                    class="inline-flex items-center absolute text-sm duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] 
+                           peer-focus:start-0 peer-focus:text-[#71b8bc] peer-placeholder-shown:scale-100 
+                           peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6
+                           transition-all"
+                    [ngClass]="{
+                        'text-red-500': fullName.invalid && fullName.touched,
+                        'text-green-500': fullName.valid && fullName.touched,
+                        'text-gray-400': !fullName.touched || (fullName.untouched && !fullName.dirty)
+                    }">
+                    Full Name
+                    <span class="text-red-500 ml-1">*</span>
+                </label>
+                
+                <!-- Validation Messages - Only shows on error -->
+                <div class="transition-all duration-300 overflow-hidden" [style.height]="(fullName.invalid && fullName.touched) ? '1.5rem' : '0'">
+                    <div *ngIf="fullName.invalid && fullName.touched" class="text-xs text-red-500 mt-1">
+                        <span *ngIf="fullName.errors?.['required']">Full name is required</span>
+                        <span *ngIf="fullName.errors?.['minlength']">Name must be at least 2 characters</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Creative phone number field -->
-            <div class="relative z-0 w-full -mb-1 mt-2">
+            <!-- Email Field -->
+            <div class="relative mb-6 mt-3 z-0 w-full">
+                <input 
+                    type="email" 
+                    name="email"
+                    [(ngModel)]="model.userEmailAddress" 
+                    #email="ngModel"
+                    required
+                    email
+                    id="email" 
+                    class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 peer"
+                    [ngClass]="{
+                        'border-red-500': email.invalid && email.touched,
+                        'border-green-500': email.valid && email.touched,
+                        'border-gray-400': !email.touched || (email.untouched && !email.dirty)
+                    }"
+                    placeholder=" "
+                />
+                <label for="email" 
+                    class="inline-flex items-center absolute text-sm duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] 
+                           peer-focus:start-0 peer-focus:text-[#71b8bc] peer-placeholder-shown:scale-100 
+                           peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6
+                           transition-all"
+                    [ngClass]="{
+                        'text-red-500': email.invalid && email.touched,
+                        'text-green-500': email.valid && email.touched,
+                        'text-gray-400': !email.touched || (email.untouched && !email.dirty)
+                    }">
+                    Email Address
+                    <span class="text-red-500 ml-1">*</span>
+                </label>
+                
+                <!-- Validation Messages - Only shows on error -->
+                <div class="transition-all duration-300 overflow-hidden" [style.height]="(email.invalid && email.touched) ? '1.5rem' : '0'">
+                    <div *ngIf="email.invalid && email.touched" class="text-xs text-red-500 mt-1">
+                        <span *ngIf="email.errors?.['required']">Email is required</span>
+                        <span *ngIf="email.errors?.['email']">Please enter a valid email address</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phone Number Field -->
+            <div class="relative z-0 w-full mb-4">
                 <div class="flex items-center gap-3">
                     <div class="flex items-center px-3 py-2 bg-[#f3f7f7] rounded-md border border-gray-200">
                         <select id="country-code" class="bg-transparent outline-none text-sm cursor-pointer">
@@ -34,38 +102,201 @@
                     </div>
 
                     <div class="relative flex-1">
-                        <input type="tel" id="phone" class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-gray-400 appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" " />
-                        <label for="phone" class="inline-flex items-center absolute text-sm text-body duration-300 transform -translate-y-6 text-gray-400 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                        <input 
+                            type="tel" 
+                            name="phone"
+                            [(ngModel)]="model.phoneNumber" 
+                            #phone="ngModel"
+                            required
+                            pattern="[0-9]{10,15}"
+                            id="phone" 
+                            class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 peer"
+                            [ngClass]="{
+                                'border-red-500': phone.invalid && phone.touched,
+                                'border-green-500': phone.valid && phone.touched,
+                                'border-gray-400': !phone.touched || (phone.untouched && !phone.dirty)
+                            }"
+                            placeholder=" "
+                        />
+                        <label for="phone" 
+                            class="inline-flex items-center absolute text-sm duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] 
+                                   peer-focus:start-0 peer-focus:text-[#71b8bc] peer-placeholder-shown:scale-100 
+                                   peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6
+                                   transition-all"
+                            [ngClass]="{
+                                'text-red-500': phone.invalid && phone.touched,
+                                'text-green-500': phone.valid && phone.touched,
+                                'text-gray-400': !phone.touched || (phone.untouched && !phone.dirty)
+                            }">
                             Phone number
+                            <span class="text-red-500 ml-1">*</span>
                         </label>
                     </div>
                 </div>
-                <p class="text-xs text-[#6b6b6b] mt-2 ml-1">Add a number we can use to reach you — we'll keep it private.</p>
+                <div class="flex flex-col justify-between mt-1">
+                    <p class="text-xs text-[#6b6b6b] ml-1">Add a number we can use to reach you — we'll keep it private.</p>
+                    
+                    <!-- Validation Messages - Only shows on error -->
+                    <div class="transition-all duration-300 overflow-hidden" [style.height]="(phone.invalid && phone.touched) ? '1.5rem' : '0'">
+                        <div *ngIf="phone.invalid && phone.touched" class="text-xs text-red-500 mt-1">
+                            <span *ngIf="phone.errors?.['required']">Phone number is required</span>
+                            <span *ngIf="phone.errors?.['pattern']">Enter 10-15 digits only</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!-- End phone field -->
 
-            <div class="relative z-0 -mb-1">
-                <input type="password" id="password" class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-gray-400 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" " />
-                <label for="password" class="inline-flex items-center absolute text-sm text-body duration-300 transform -translate-y-6 text-gray-400 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+            <!-- Password Field with Real-time Validation -->
+            <div class="relative z-0 w-full">
+                <input 
+                    type="password" 
+                    name="password"
+                    [(ngModel)]="model.userPassword" 
+                    #password="ngModel"
+                    required
+                    minlength="8"
+                    pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[.@$!%*?&amp;#\s])[A-Za-z0-9.@$!%*?&amp;#\s]+$"
+                    id="password" 
+                    class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 peer"
+                    [ngClass]="{
+                        'border-red-500': password.invalid && password.touched,
+                        'border-green-500': password.valid && password.touched,
+                        'border-gray-400': !password.touched || (password.untouched && !password.dirty)
+                    }"
+                    placeholder=" "
+                />
+                <label for="password" 
+                    class="inline-flex items-center absolute text-sm duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] 
+                           peer-focus:start-0 peer-focus:text-[#71b8bc] peer-placeholder-shown:scale-100 
+                           peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6
+                           transition-all"
+                    [ngClass]="{
+                        'text-red-500': password.invalid && password.touched,
+                        'text-green-500': password.valid && password.touched,
+                        'text-gray-400': !password.touched || (password.untouched && !password.dirty)
+                    }">
                     Password
+                    <span class="text-red-500 ml-1">*</span>
                 </label>
+                
+                <!-- Password Strength Indicator -->
+                <div class="mt-2">
+                    <div class="flex gap-1 mb-2">
+                        <div *ngFor="let segment of [1,2,3,4]; let i = index" 
+                            class="h-1 flex-1 rounded-full transition-all duration-300"
+                            [ngClass]="{
+                                'bg-gray-300': getPasswordStrength() < i,
+                                'bg-red-400': getPasswordStrength() === i && getPasswordStrength() < 2,
+                                'bg-yellow-400': getPasswordStrength() === i && getPasswordStrength() === 2,
+                                'bg-green-400': getPasswordStrength() === i && getPasswordStrength() > 2
+                            }">
+                        </div>
+                    </div>
+                    
+                    <!-- Validation Messages - Only shows on error with dynamic height -->
+                    <div class="transition-all duration-300 overflow-hidden" 
+                         [style.height]="(password.invalid && password.touched) ? (password.errors?.['pattern'] && model.userPassword ? '8.5rem' : '1.5rem') : '0'">
+                        <div *ngIf="password.invalid && password.touched" class="text-xs">
+                            <p *ngIf="password.errors?.['required']" class="text-red-500 mt-1">Password is required</p>
+                            <p *ngIf="password.errors?.['minlength']" class="text-red-500 mt-1">Password must be at least 8 characters long</p>
+                            <div *ngIf="password.errors?.['pattern'] && model.userPassword" class="text-red-500 space-y-1 mt-1">
+                                <p class="font-medium">Password must contain:</p>
+                                <ul class="list-disc pl-4 space-y-1">
+                                    <li [ngClass]="{'text-green-500': hasUpperCase()}">One uppercase letter (A-Z)</li>
+                                    <li [ngClass]="{'text-green-500': hasLowerCase()}">One lowercase letter (a-z)</li>
+                                    <li [ngClass]="{'text-green-500': hasNumber()}">One number (0-9)</li>
+                                    <li [ngClass]="{'text-green-500': hasSpecialChar()}">One special character (.@$!%*?#)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="relative z-0 -mb-3">
-                <input type="password" id="confirm-password" class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-gray-400 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" " />
-                <label for="confirm-password" class="inline-flex items-center absolute text-sm text-body duration-300 transform -translate-y-6 text-gray-400 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+            <!-- Confirm Password Field -->
+            <div class="relative z-0 w-full mt-3">
+                <input 
+                    type="password" 
+                    name="confirmPassword"
+                    [(ngModel)]="confirmPassword" 
+                    #confirmPasswordInput="ngModel"
+                    required
+                    id="confirm-password" 
+                    class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 peer"
+                    [ngClass]="{
+                        'border-red-500': (confirmPasswordInput.invalid || !passwordsMatch()) && confirmPasswordInput.touched,
+                        'border-green-500': confirmPasswordInput.valid && passwordsMatch() && confirmPasswordInput.touched,
+                        'border-gray-400': !confirmPasswordInput.touched || (confirmPasswordInput.untouched && !confirmPasswordInput.dirty)
+                    }"
+                    placeholder=" "
+                />
+                <label for="confirm-password" 
+                    class="inline-flex items-center absolute text-sm duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] 
+                           peer-focus:start-0 peer-focus:text-[#71b8bc] peer-placeholder-shown:scale-100 
+                           peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6
+                           transition-all"
+                    [ngClass]="{
+                        'text-red-500': (confirmPasswordInput.invalid || !passwordsMatch()) && confirmPasswordInput.touched,
+                        'text-green-500': confirmPasswordInput.valid && passwordsMatch() && confirmPasswordInput.touched,
+                        'text-gray-400': !confirmPasswordInput.touched || (confirmPasswordInput.untouched && !confirmPasswordInput.dirty)
+                    }">
                     Confirm Password
+                    <span class="text-red-500 ml-1">*</span>
+                </label>
+                
+                <!-- Validation Messages - Only shows on error -->
+                <div class="transition-all duration-300 overflow-hidden" [style.height]="(confirmPasswordInput.invalid && confirmPasswordInput.touched) || (confirmPasswordInput.touched && !passwordsMatch()) ? '1.5rem' : '0'">
+                    <div *ngIf="confirmPasswordInput.invalid && confirmPasswordInput.touched" class="text-xs text-red-500 mt-1">
+                        <span>Please confirm your password</span>
+                    </div>
+                    <div *ngIf="confirmPasswordInput.valid && !passwordsMatch() && confirmPasswordInput.touched" class="text-xs text-red-500 mt-1">
+                        <span>Passwords do not match</span>
+                    </div>
+                    <div *ngIf="confirmPasswordInput.valid && passwordsMatch() && confirmPasswordInput.touched" class="text-xs text-green-500 mt-1">
+                        <span>Passwords match ✓</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Terms & Conditions -->
+            <div class="flex items-start gap-2 mt-2">
+                <input 
+                    id="terms" 
+                    name="terms"
+                    type="checkbox" 
+                    [(ngModel)]="termsAccepted"
+                    #terms="ngModel"
+                    required
+                    class="w-4 h-4 text-[#71b8bc] accent-[#71b8bc] mt-1" 
+                />
+                <label for="terms" class="text-sm text-[#0000009c] cursor-pointer">
+                    I agree to the <a href="#" class="text-[#71b8bc] hover:underline">Terms &amp; Privacy</a>
+                    <span class="text-red-500 ml-1">*</span>
                 </label>
             </div>
-
-            <div class="flex items-center gap-2">
-                <input id="terms" type="checkbox" class="w-4 h-4 text-[#71b8bc] accent-[#71b8bc]" />
-                <label for="terms" class="text-sm text-[#0000009c]">I agree to the <a href="#" class="text-[#71b8bc]">Terms &amp; Privacy</a></label>
+            <!-- Validation Messages - Only shows on error -->
+            <div class="transition-all duration-300 overflow-hidden" [style.height]="(terms.invalid && terms.touched) ? '1.5rem' : '0'">
+                <div *ngIf="terms.invalid && terms.touched" class="text-xs text-red-500 mt-1">
+                    <span>You must accept the terms & conditions</span>
+                </div>
             </div>
 
-            <button class="bg-[#71b8bc] flex items-center justify-center gap-2 text-white rounded-lg py-2 mt-6 hover:bg-[#236669] cursor-pointer transition-colors duration-300"> <p class="text-lg">Sign Up</p>  <svg class="size-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M14 15.6569V10M14 10H8.34315M14 10L5.63604 18.364M10.2432 20.8278C13.0904 21.3917 16.1575 20.5704 18.364 18.364C21.8787 14.8492 21.8787 9.15076 18.364 5.63604C14.8492 2.12132 9.15076 2.12132 5.63604 5.63604C3.42957 7.84251 2.60828 10.9096 3.17216 13.7568" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> </svg></button>
+            <!-- Submit Button -->
+            <button 
+                type="submit"
+                [disabled]="!registerForm.valid || !passwordsMatch() || !termsAccepted"
+                class="flex items-center justify-center gap-2 text-white rounded-lg py-3 mt-8 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                [ngClass]="{
+                    'bg-[#71b8bc] hover:bg-[#236669] cursor-pointer': registerForm.valid && passwordsMatch() && termsAccepted,
+                    'bg-gray-400': !registerForm.valid || !passwordsMatch() || !termsAccepted
+                }">
+                <p class="text-lg">Sign Up</p>
+                <svg class="size-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 15.6569V10M14 10H8.34315M14 10L5.63604 18.364M10.2432 20.8278C13.0904 21.3917 16.1575 20.5704 18.364 18.364C21.8787 14.8492 21.8787 9.15076 18.364 5.63604C14.8492 2.12132 9.15076 2.12132 5.63604 5.63604C3.42957 7.84251 2.60828 10.9096 3.17216 13.7568" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
 
-            <p class="text-sm text-[#0000009c]">Already have an account? <a routerLink="/login" class="text-[#71b8bc]">Login</a></p>
-        </div>
+            <p class="text-sm text-[#0000009c] text-center mt-4">Already have an account? <a routerLink="/login" class="text-[#71b8bc] hover:underline">Login</a></p>
+        </form>
     </div>
 </div>

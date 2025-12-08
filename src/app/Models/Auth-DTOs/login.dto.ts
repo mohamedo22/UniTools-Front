@@ -1,8 +1,8 @@
 export class ILoginDto {
     constructor() {
-        this.email = '';
-        this.password = '';
+        this.UserEmailAddress = '';
+        this.UserPassword = '';
     }
-    email: string;
-    password: string;
+    UserEmailAddress: string;
+    UserPassword: string;
 }
