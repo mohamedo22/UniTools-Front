@@ -284,16 +284,29 @@
             <!-- Submit Button -->
             <button 
                 type="submit"
-                [disabled]="!registerForm.valid || !passwordsMatch() || !termsAccepted"
+                
+                [disabled]="!registerForm.valid || !passwordsMatch() || !termsAccepted || isLoading"
                 class="flex items-center justify-center gap-2 text-white rounded-lg py-3 mt-8 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 [ngClass]="{
-                    'bg-[#71b8bc] hover:bg-[#236669] cursor-pointer': registerForm.valid && passwordsMatch() && termsAccepted,
-                    'bg-gray-400': !registerForm.valid || !passwordsMatch() || !termsAccepted
+                    'bg-[#71b8bc] hover:bg-[#236669] cursor-pointer': registerForm.valid && passwordsMatch() && termsAccepted ,
+                    'bg-gray-400': !registerForm.valid || !passwordsMatch() || !termsAccepted || isLoading
                 }">
-                <p class="text-lg">Sign Up</p>
-                <svg class="size-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M14 15.6569V10M14 10H8.34315M14 10L5.63604 18.364M10.2432 20.8278C13.0904 21.3917 16.1575 20.5704 18.364 18.364C21.8787 14.8492 21.8787 9.15076 18.364 5.63604C14.8492 2.12132 9.15076 2.12132 5.63604 5.63604C3.42957 7.84251 2.60828 10.9096 3.17216 13.7568" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                @if (!isLoading) {
+                    <p class="text-lg">Sign Up</p>
+                    <svg class="size-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14 15.6569V10M14 10H8.34315M14 10L5.63604 18.364M10.2432 20.8278C13.0904 21.3917 16.1575 20.5704 18.364 18.364C21.8787 14.8492 21.8787 9.15076 18.364 5.63604C14.8492 2.12132 9.15076 2.12132 5.63604 5.63604C3.42957 7.84251 2.60828 10.9096 3.17216 13.7568" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                }
+                @else {
+                    <div class="wrapper-small ">
+                        <div class="circle-small"></div>
+                        <div class="circle-small"></div>
+                        <div class="circle-small"></div>
+                        <div class="shadow-small"></div>
+                        <div class="shadow-small"></div>
+                        <div class="shadow-small"></div>
+                    </div>
+                }
             </button>
 
             <p class="text-sm text-[#0000009c] text-center mt-4">Already have an account? <a routerLink="/login" class="text-[#71b8bc] hover:underline">Login</a></p>

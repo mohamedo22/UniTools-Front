@@ -21,11 +21,9 @@ export class LoginComponant {
    
   }
   
+
   model = new ILoginDto();
 
-  
-
-  
 
   onSubmit(form:NgForm) {
     this.loading = true;
@@ -33,13 +31,11 @@ export class LoginComponant {
       this.authService.Login(this.model).subscribe(
         {
           next: (res) => {
-            console.log(res);
             this.loading = false;
             this.sharedService.showToast('Login Successful', 'success');
           }
           ,
           error: (err) => {
-            console.log(err);
             this.loading = false;
             this.sharedService.showToast('Login Failed: ' + err.error.message, 'error');
           }

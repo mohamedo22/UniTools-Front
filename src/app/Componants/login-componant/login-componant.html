@@ -1,4 +1,4 @@
-<div style="width: 100vw; height: 100vh;" class="overflow-hidden flex bg-[#B0D8DA] pl-3 pt-3">
+<div style="width: 100vw; height: 100vh;" class="overflow-hidden flex bg-[#B0D8DA] pl-3 ">
     <div class="flex flex-col gap-5 w-110 pt-3"> 
         <img src="Logo.png" alt="Logo" class="size-17"/>
         <p class="pl-4 font-medium text-2xl text-white w-110">Find Your Tools, Mockups Create Account and Browse here</p>
@@ -106,20 +106,33 @@
 
             <!-- Login Button -->
             <button 
-                [disabled]="loginForm.invalid" 
+                [disabled]="loginForm.invalid || loading" 
                 class="flex items-center justify-center gap-2 text-white rounded-lg py-3 mt-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 [class.bg-[#71b8bc]]="loginForm.valid"
-                [class.bg-gray-400]="loginForm.invalid"
+                [class.bg-gray-400]="loginForm.invalid || loading"
                 [class.hover:bg-[#236669]]="loginForm.valid"
                 [class.cursor-pointer]="loginForm.valid">
-                <p class="text-lg">Login</p>
-                <svg class="size-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M14 15.6569V10M14 10H8.34315M14 10L5.63604 18.364M10.2432 20.8278C13.0904 21.3917 16.1575 20.5704 18.364 18.364C21.8787 14.8492 21.8787 9.15076 18.364 5.63604C14.8492 2.12132 9.15076 2.12132 5.63604 5.63604C3.42957 7.84251 2.60828 10.9096 3.17216 13.7568" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                @if ( !loading ) {
+                    <p class="text-lg">Login</p>
+                    <svg class="size-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14 15.6569V10M14 10H8.34315M14 10L5.63604 18.364M10.2432 20.8278C13.0904 21.3917 16.1575 20.5704 18.364 18.364C21.8787 14.8492 21.8787 9.15076 18.364 5.63604C14.8492 2.12132 9.15076 2.12132 5.63604 5.63604C3.42957 7.84251 2.60828 10.9096 3.17216 13.7568" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                }
+                @else {
+                    <div class="wrapper-small">
+                        <div class="circle-small"></div>
+                        <div class="circle-small"></div>
+                        <div class="circle-small"></div>
+                        <div class="shadow-small"></div>
+                        <div class="shadow-small"></div>
+                        <div class="shadow-small"></div>
+                    </div>
+                }
+                
             </button>
 
             <p class="text-sm text-[#0000009c] text-center mt-2">
-                Don't have an Account? <a routerLink="/signup" class="text-[#71b8bc] hover:underline">Register</a>
+                Don't have an Account? <a  routerLink="/signup" class="text-[#71b8bc] hover:underline">Register</a>
             </p>
         </form>
     </div>

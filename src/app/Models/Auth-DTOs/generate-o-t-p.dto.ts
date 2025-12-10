@@ -1,8 +1,6 @@
-export class VerifyOtpDto {
+export class GenerateOTPDto {
     constructor() {
         this.Email = '';
-        this.Otp = '';
     }
     public Email: string;
-    public Otp: string;
 }

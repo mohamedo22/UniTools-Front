@@ -4,12 +4,12 @@ import { AuthService } from '../../Services/auth.service';
 import { SharedService } from '../../Shared/shared.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   standalone: true,
   selector: 'app-sign-up-componant',
-  imports: [ FormsModule , CommonModule],
+  imports: [ FormsModule , CommonModule , RouterLink],
   templateUrl: './sign-up-componant.html',
   styleUrl: './sign-up-componant.css',
   providers: [AuthService , SharedService],
@@ -68,11 +68,12 @@ export class SignUpComponant {
       
       this.authService.Register(this.model).subscribe({
         next: (res) => {
+          this.isLoading = false;
           this.sharedService.showToast('Registration Successful', 'success');
           this.router.navigate(['/login']);
         },
         error: (err) => {
-          console.log(err);
+          this.isLoading = false;
           this.sharedService.showToast('Registration Failed: ' + err.error.message, 'error');
         }
       });
@@ -84,7 +85,7 @@ export class SignUpComponant {
         const control = form.controls[key];
         control.markAsTouched();
       });
+      this.isLoading = false;
     }
-    this.isLoading = false;
   }
 }
